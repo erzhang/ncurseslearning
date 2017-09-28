@@ -1,5 +1,6 @@
 #ifndef _STATEBLOCKS_H_
 #define _STATEBLOCKS_H_
+#include <memory>
 
 #include <vector>
 constexpr int FRAME_HEIGHT        = 40;
@@ -12,38 +13,58 @@ std::vector<int> vecToSquare(int idx, int size);
 
 class Block{
     public:
-        std::vector<int> blocksFilled{0,0,0,0,0,1,0,0,0,0,0};
-        int blockWidth = 3;
-        virtual void rotate_cw() = 0;
-        virtual void rotate_countercw() = 0;
-};
-
-class Tetronimo : public Block {
-    public:
-        Tetronimo();
-        void rotate_cw();
-        void rotate_countercw();
+        Block(int blockw, std::vector<int> bF) : blockWidth(blockw), blocksFilled(bF) {}
+        virtual void rotate_cw();
+        virtual void rotate_countercw();
+        int blockWidth;
         std::vector<int> blocksFilled;
-        int blockWidth = 3;
 };
 
 class I_Block : public Block {
     public:
         I_Block();
-        void rotate_cw();
-        void rotate_countercw();
-        std::vector<int> blocksFilled;
-        int blockWidth = 4;
+        void rotate_cw() override;
+};
+
+class T_Block : public Block {
+    public:
+        T_Block();
+};
+
+class L_Block : public Block {
+    public:
+        L_Block();
+};
+
+class J_Block : public Block {
+    public:
+        J_Block();
+};
+
+class S_Block : public Block {
+    public:
+        S_Block();
+};
+
+class Z_Block : public Block {
+    public:
+        Z_Block();
+};
+
+class O_Block : public Block {
+    public:
+        O_Block();
+        void rotate_cw() override {};
 };
 
 class StateTrack {
     public:
-        StateTrack(Block *b);
+        StateTrack( std::unique_ptr<Block>& b);
         void removeRows(std::vector<int> rows);
         void removeRows(int row);
         void addScore(int numRows);
         void fillSpace(std::vector<int> indices);
-        Block *iblock; //Current Block
+        std::unique_ptr<Block> &iblock; //Current Block
         void updateRow(int newrow) { curRow = newrow;}
         void updateCol(int newcol) { curCol = newcol;}
         int row() { return curRow; }

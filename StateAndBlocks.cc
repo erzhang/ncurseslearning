@@ -1,3 +1,4 @@
+#include <iostream>
 #include "StateAndBlocks.hpp"
 
 // matrix to linear idx transformations
@@ -13,13 +14,15 @@ std::vector<int> vecToSquare(int idx, int size) {
 }
 
 
-StateTrack::StateTrack(Block* b) 
+StateTrack::StateTrack( std::unique_ptr<Block>& b) 
     : gameBoardState(FRAME_HEIGHT*FRAME_WIDTH, 0)
     , score(0)
     , iblock(b)
     , curRow(TOP_LEFT_CORNER_ROW + 1)
     , curCol(TOP_LEFT_CORNER_COL + 1)
 {
+    std::cout << "ENTER";
+    for(auto &zz : b->blocksFilled){ std::cout<<zz; }
 }
 
 void StateTrack::fillSpace(std::vector<int> indices)
@@ -27,33 +30,27 @@ void StateTrack::fillSpace(std::vector<int> indices)
     for(auto &idx : indices){ ++(this->gameBoardState[idx]); }
 }
 
-Tetronimo::Tetronimo()
-    : blocksFilled{0,1,1,0,1,1,0,1,1,0,0}
-{
-}
 
-I_Block::I_Block() 
-    : blocksFilled{0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0}
-{ 
-}
-void Tetronimo::rotate_cw(){
+I_Block::I_Block() : Block(4, std::vector<int>{0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0}) { }
+T_Block::T_Block() : Block(3, std::vector<int>{0,1,0,1,1,1,0,0,0}) { }
+L_Block::L_Block() : Block(3, std::vector<int>{0,1,0,0,1,0,0,1,1}) { }
+J_Block::J_Block() : Block(3, std::vector<int>{0,1,0,0,1,0,1,1,0}) { }
+S_Block::S_Block() : Block(3, std::vector<int>{0,0,0,0,1,1,1,1,0}) { }
+Z_Block::Z_Block() : Block(3, std::vector<int>{0,0,0,1,1,0,0,1,1}) { }
+O_Block::O_Block() : Block(2, std::vector<int>{1,1,1,1}) { }
+
+void Block::rotate_cw(){
     std::vector<int> original(blocksFilled);
     for(int row = 0; row < 3; ++row)
     {
         for(int col = 0; col < 3; ++col)
         {
             blocksFilled[squareToVec(row,col,3)] =
-                original[squareToVec(col,row,3)];
+                original[squareToVec(col,abs(row-2),3)];
             //some cool bit manipulation to get 3 from 0 and 1 from 2 and vice
             //versa
         }
     }
-}
-void Tetronimo::rotate_countercw(){
-    //just rotate three times lol
-    rotate_cw();
-    rotate_cw();
-    rotate_cw();
 }
 
 void I_Block::rotate_cw(){
@@ -69,7 +66,7 @@ void I_Block::rotate_cw(){
         }
     }
 }
-void I_Block::rotate_countercw(){
+void Block::rotate_countercw(){
     //just rotate three times lol
     rotate_cw();
     rotate_cw();

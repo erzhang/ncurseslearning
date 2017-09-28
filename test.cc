@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include <vector>
 #include <iostream>
+#include <memory>
 #include "StateAndBlocks.hpp"
 #include "Screen.hpp"
 
@@ -60,8 +61,9 @@ void game_loop(char main_char, int row, int col, int ch, Screen &curscr, StateTr
 }
 int main() 
 {
-    Block* testBlock = new I_Block;
-    StateTrack testState(testBlock);
+    std::unique_ptr<Block> testBlockPtr(new O_Block());
+    for(auto &x : testBlockPtr->blocksFilled) std::cout<< x << std::endl;
+    StateTrack testState(testBlockPtr);
     Screen scr;
     int ch =   getch();
     game_loop('@', 50,50, ch, scr, testState);

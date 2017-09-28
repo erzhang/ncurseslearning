@@ -11,7 +11,7 @@ void Screen::draw_state(StateTrack &st)
     int idx = 0;
     for(auto &occupied : st.iblock->blocksFilled){
         if(occupied){
-            std::vector<int> rc = vecToSquare(idx, 4);
+            std::vector<int> rc = vecToSquare(idx, st.iblock->blockWidth);
             mvaddch(rc[0] + oRow, rc[1] + oCol, '#');
         }
         ++idx;
