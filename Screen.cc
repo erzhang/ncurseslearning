@@ -2,13 +2,14 @@
 #include "StateAndBlocks.hpp"
 #include <ncurses.h>
 #include <vector>
+#include <iostream>
 
 void Screen::draw_state(StateTrack &st)
 {
     int oRow = st.row();
     int oCol = st.col();
     int idx = 0;
-    for(auto &occupied : st.iblock.blocksFilled){
+    for(auto &occupied : st.iblock->blocksFilled){
         if(occupied){
             std::vector<int> rc = vecToSquare(idx, 4);
             mvaddch(rc[0] + oRow, rc[1] + oCol, '#');

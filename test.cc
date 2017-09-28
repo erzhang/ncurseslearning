@@ -9,8 +9,8 @@
 void erase(int y, int x, Screen &curscr, StateTrack &curstate)
 {
     erase();
-    curscr.draw_box();
     curscr.draw_state(curstate);
+    curscr.draw_box();
 }
 
 void game_loop(char main_char, int row, int col, int ch, Screen &curscr, StateTrack &state)
@@ -50,7 +50,7 @@ void game_loop(char main_char, int row, int col, int ch, Screen &curscr, StateTr
         } else if(ch == 'q') {
             break;
         } else if(ch == 'c') {
-            state.iblock.rotate_countercw();
+            state.iblock->rotate_countercw();
             erase(row, col,curscr, state);
             refresh();
         } else if(ch == 'e') {
@@ -60,7 +60,7 @@ void game_loop(char main_char, int row, int col, int ch, Screen &curscr, StateTr
 }
 int main() 
 {
-    I_Block testBlock;
+    Block* testBlock = new I_Block;
     StateTrack testState(testBlock);
     Screen scr;
     int ch =   getch();

@@ -12,12 +12,15 @@ std::vector<int> vecToSquare(int idx, int size);
 
 class Block{
     public:
+        std::vector<int> blocksFilled{0,0,0,0,0,1,0,0,0,0,0};
+        int blockWidth = 3;
         virtual void rotate_cw() = 0;
         virtual void rotate_countercw() = 0;
 };
 
 class Tetronimo : public Block {
     public:
+        Tetronimo();
         void rotate_cw();
         void rotate_countercw();
         std::vector<int> blocksFilled;
@@ -33,15 +36,14 @@ class I_Block : public Block {
         int blockWidth = 4;
 };
 
-
 class StateTrack {
     public:
-        StateTrack(I_Block b);
+        StateTrack(Block *b);
         void removeRows(std::vector<int> rows);
         void removeRows(int row);
         void addScore(int numRows);
         void fillSpace(std::vector<int> indices);
-        I_Block iblock; //Current Block
+        Block *iblock; //Current Block
         void updateRow(int newrow) { curRow = newrow;}
         void updateCol(int newcol) { curCol = newcol;}
         int row() { return curRow; }
