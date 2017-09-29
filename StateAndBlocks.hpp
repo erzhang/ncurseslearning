@@ -13,7 +13,8 @@ std::vector<int> vecToSquare(int idx, int size);
 
 class Block{
     public:
-        Block(int blockw, std::vector<int> bF) : blockWidth(blockw), blocksFilled(bF) {}
+        Block(int blockw, std::vector<int> bF) 
+            : blockWidth(blockw), blocksFilled(bF) {}
         virtual void rotate_cw();
         virtual void rotate_countercw();
         int blockWidth;

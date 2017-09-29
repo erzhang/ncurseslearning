@@ -13,6 +13,19 @@ void erase(int y, int x, Screen &curscr, StateTrack &curstate)
     curscr.draw_state(curstate);
     curscr.draw_box();
 }
+int updateRow(int position, int update)
+{
+    if(position + update > -2+ FRAME_HEIGHT + TOP_LEFT_CORNER_ROW) return position;
+    if(position + update < 1 + TOP_LEFT_CORNER_ROW) return position;
+    return position + update;
+}
+
+int updateCol(int position, int update)
+{
+    if(position + update > -2+ FRAME_WIDTH + TOP_LEFT_CORNER_COL) return position;
+    if(position + update < 1 + TOP_LEFT_CORNER_COL) return position;
+    return position + update;
+}
 
 void game_loop(char main_char, int row, int col, int ch, Screen &curscr, StateTrack &state)
 {
@@ -25,27 +38,19 @@ void game_loop(char main_char, int row, int col, int ch, Screen &curscr, StateTr
     {
         ch = getch();
         if (ch == 'h') {       //left
-            col = col - 1;
-            state.updateRow(row);
-            state.updateCol(col);
+            col = updateCol(col,-1); state.updateRow(row); state.updateCol(col);
             erase(row, col, curscr, state);
             refresh();
         } else if(ch == 'j') { //down
-            row = row + 1;
-            state.updateRow(row);
-            state.updateCol(col);
+            row = updateRow(row, 1); state.updateRow(row); state.updateCol(col);
             erase(row, col, curscr, state);
             refresh();
         } else if(ch == 'k') { //up
-            row = row - 1;
-            state.updateRow(row);
-            state.updateCol(col);
+            row = updateRow(row, -1); state.updateRow(row); state.updateCol(col);
             erase(row, col, curscr, state);
             refresh();
         } else if(ch == 'l') { //right
-            col = col + 1;
-            state.updateRow(row);
-            state.updateCol(col);
+            col = updateCol(col,1); state.updateRow(row); state.updateCol(col);
             erase(row, col, curscr, state);
             refresh();
         } else if(ch == 'q') {
@@ -61,12 +66,12 @@ void game_loop(char main_char, int row, int col, int ch, Screen &curscr, StateTr
 }
 int main() 
 {
-    std::unique_ptr<Block> testBlockPtr(new O_Block());
+    std::unique_ptr<Block> testBlockPtr(new I_Block());
     for(auto &x : testBlockPtr->blocksFilled) std::cout<< x << std::endl;
     StateTrack testState(testBlockPtr);
     Screen scr;
     int ch =   getch();
-    game_loop('@', 50,50, ch, scr, testState);
+    game_loop('@', 25,40, ch, scr, testState);
     endwin();
     return 0;
 }

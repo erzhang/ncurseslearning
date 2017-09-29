@@ -41,10 +41,8 @@ O_Block::O_Block() : Block(2, std::vector<int>{1,1,1,1}) { }
 
 void Block::rotate_cw(){
     std::vector<int> original(blocksFilled);
-    for(int row = 0; row < 3; ++row)
-    {
-        for(int col = 0; col < 3; ++col)
-        {
+    for(int row = 0; row < 3; ++row) {
+        for(int col = 0; col < 3; ++col) {
             blocksFilled[squareToVec(row,col,3)] =
                 original[squareToVec(col,abs(row-2),3)];
             //some cool bit manipulation to get 3 from 0 and 1 from 2 and vice
@@ -55,10 +53,8 @@ void Block::rotate_cw(){
 
 void I_Block::rotate_cw(){
     std::vector<int> original(blocksFilled);
-    for(int row = 0; row < 4; ++row)
-    {
-        for(int col = 0; col < 4; ++col)
-        {
+    for(int row = 0; row < 4; ++row) {
+        for(int col = 0; col < 4; ++col) {
             blocksFilled[squareToVec(row,col,4)] =
                 original[squareToVec(col,(~row & 3),4)];
             //some cool bit manipulation to get 3 from 0 and 1 from 2 and vice
@@ -68,8 +64,6 @@ void I_Block::rotate_cw(){
 }
 void Block::rotate_countercw(){
     //just rotate three times lol
-    rotate_cw();
-    rotate_cw();
-    rotate_cw();
+    rotate_cw(); rotate_cw(); rotate_cw();
 }
 
