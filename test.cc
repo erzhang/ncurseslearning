@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <ctime>
 #include "StateAndBlocks.hpp"
 #include "Screen.hpp"
 
@@ -111,8 +112,7 @@ void game_loop(char main_char, int row, int col, int ch, Screen &curscr, StateTr
 
 int main() 
 {
-    std::unique_ptr<Block> testBlockPtr(new I_Block());
-    StateTrack testState(testBlockPtr);
+    StateTrack testState;
     Screen scr;
     int ch =   getch();
     game_loop('@', 25,40, ch, scr, testState);

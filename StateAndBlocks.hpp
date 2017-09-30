@@ -61,7 +61,8 @@ class Z_Block : public Block {
 
 class StateTrack {
     public:
-        StateTrack( std::unique_ptr<Block>& b);
+        //StateTrack( std::unique_ptr<Block>& b);
+        StateTrack();
         void removeRows(std::vector<int> rows);
         void removeRows(int row);
         void addScore(int numRows);
@@ -71,7 +72,7 @@ class StateTrack {
         int row() { return curRow; }
         int col() { return curCol; }
         std::vector<int> gameBoardState;
-        std::unique_ptr<Block> &iblock; //Current Block
+        std::unique_ptr<Block> iblock; //Current Block
     private:
         int score;
         int curRow;

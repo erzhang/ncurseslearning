@@ -13,11 +13,28 @@ std::vector<int> vecToSquare(int idx, int size) {
     return rc;
 }
 
+Block* randomBlockPiece()
+{
+    srand(time(NULL)); //set random seed
+    int output = rand() % 7;
+    std::cout << output << std::endl;
+    switch (output){
+        case 0: return new I_Block(); 
+        case 1: return new T_Block(); 
+        case 2: return new L_Block(); 
+        case 3: return new J_Block(); 
+        case 4: return new S_Block(); 
+        case 5: return new Z_Block(); 
+        case 6: return new O_Block(); 
+    }
+    return nullptr;
+}
 
-StateTrack::StateTrack( std::unique_ptr<Block>& b) 
+
+StateTrack::StateTrack() 
     : gameBoardState(FRAME_HEIGHT*FRAME_WIDTH, 0)
     , score(0)
-    , iblock(b)
+    , iblock(randomBlockPiece())
     , curRow(TOP_LEFT_CORNER_ROW + 1)
     , curCol(TOP_LEFT_CORNER_COL + 1)
 {
@@ -25,12 +42,12 @@ StateTrack::StateTrack( std::unique_ptr<Block>& b)
 
 
 I_Block::I_Block() : Block(4, std::vector<int>{0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0}) { }
-T_Block::T_Block() : Block(3, std::vector<int>{0,1,0,1,1,1,0,0,0}) { }
-L_Block::L_Block() : Block(3, std::vector<int>{0,1,0,0,1,0,0,1,1}) { }
-J_Block::J_Block() : Block(3, std::vector<int>{0,1,0,0,1,0,1,1,0}) { }
-S_Block::S_Block() : Block(3, std::vector<int>{0,0,0,0,1,1,1,1,0}) { }
-Z_Block::Z_Block() : Block(3, std::vector<int>{0,0,0,1,1,0,0,1,1}) { }
-O_Block::O_Block() : Block(2, std::vector<int>{1,1,1,1}) { }
+T_Block::T_Block() : Block(3, std::vector<int>{0,1,0,1,1,1,0,0,0})               { }
+L_Block::L_Block() : Block(3, std::vector<int>{0,1,0,0,1,0,0,1,1})               { }
+J_Block::J_Block() : Block(3, std::vector<int>{0,1,0,0,1,0,1,1,0})               { }
+S_Block::S_Block() : Block(3, std::vector<int>{0,0,0,0,1,1,1,1,0})               { }
+Z_Block::Z_Block() : Block(3, std::vector<int>{0,0,0,1,1,0,0,1,1})               { }
+O_Block::O_Block() : Block(2, std::vector<int>{1,1,1,1})                         { }
 
 void Block::rotate_cw(){
     std::vector<int> original(blocksFilled);
@@ -63,12 +80,10 @@ void StateTrack::fillSpace()
     int blockIndex = 0;
     for(auto &block : iblock->blocksFilled){
         if(block){
-            std::cout << "HI" ;
-           
             std::vector<int> rc = vecToSquare(blockIndex, iblock->blockWidth);
             int gameBoardRow = rc[0] + row() - TOP_LEFT_CORNER_ROW; 
             int gameBoardCol = rc[1] + col() - TOP_LEFT_CORNER_COL;
-            gameBoardState[squareToVec(gameBoardRow, gameBoardCol, FRAME_WIDTH)] = 1;
+            ++gameBoardState[squareToVec(gameBoardRow, gameBoardCol, FRAME_WIDTH)];
         }
         ++blockIndex;
     }
