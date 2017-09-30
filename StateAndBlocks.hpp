@@ -1,8 +1,8 @@
 #ifndef _STATEBLOCKS_H_
 #define _STATEBLOCKS_H_
 #include <memory>
-
 #include <vector>
+
 constexpr int FRAME_HEIGHT        = 40;
 constexpr int FRAME_WIDTH         = 20;
 constexpr int TOP_LEFT_CORNER_ROW = 05; 
@@ -19,6 +19,12 @@ class Block{
         virtual void rotate_countercw();
         int blockWidth;
         std::vector<int> blocksFilled;
+};
+
+class O_Block : public Block {
+    public:
+        O_Block();
+        void rotate_cw() override {};
 };
 
 class I_Block : public Block {
@@ -52,11 +58,6 @@ class Z_Block : public Block {
         Z_Block();
 };
 
-class O_Block : public Block {
-    public:
-        O_Block();
-        void rotate_cw() override {};
-};
 
 class StateTrack {
     public:
@@ -64,17 +65,17 @@ class StateTrack {
         void removeRows(std::vector<int> rows);
         void removeRows(int row);
         void addScore(int numRows);
-        void fillSpace(std::vector<int> indices);
-        std::unique_ptr<Block> &iblock; //Current Block
+        void fillSpace();
         void updateRow(int newrow) { curRow = newrow;}
         void updateCol(int newcol) { curCol = newcol;}
         int row() { return curRow; }
         int col() { return curCol; }
+        std::vector<int> gameBoardState;
+        std::unique_ptr<Block> &iblock; //Current Block
     private:
         int score;
         int curRow;
         int curCol;
-        std::vector<int> gameBoardState;
 };
 
 #endif

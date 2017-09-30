@@ -21,13 +21,6 @@ StateTrack::StateTrack( std::unique_ptr<Block>& b)
     , curRow(TOP_LEFT_CORNER_ROW + 1)
     , curCol(TOP_LEFT_CORNER_COL + 1)
 {
-    std::cout << "ENTER";
-    for(auto &zz : b->blocksFilled){ std::cout<<zz; }
-}
-
-void StateTrack::fillSpace(std::vector<int> indices)
-{
-    for(auto &idx : indices){ ++(this->gameBoardState[idx]); }
 }
 
 
@@ -45,8 +38,6 @@ void Block::rotate_cw(){
         for(int col = 0; col < 3; ++col) {
             blocksFilled[squareToVec(row,col,3)] =
                 original[squareToVec(col,abs(row-2),3)];
-            //some cool bit manipulation to get 3 from 0 and 1 from 2 and vice
-            //versa
         }
     }
 }
@@ -67,3 +58,18 @@ void Block::rotate_countercw(){
     rotate_cw(); rotate_cw(); rotate_cw();
 }
 
+void StateTrack::fillSpace()
+{
+    int blockIndex = 0;
+    for(auto &block : iblock->blocksFilled){
+        if(block){
+            std::cout << "HI" ;
+           
+            std::vector<int> rc = vecToSquare(blockIndex, iblock->blockWidth);
+            int gameBoardRow = rc[0] + row() - TOP_LEFT_CORNER_ROW; 
+            int gameBoardCol = rc[1] + col() - TOP_LEFT_CORNER_COL;
+            gameBoardState[squareToVec(gameBoardRow, gameBoardCol, FRAME_WIDTH)] = 1;
+        }
+        ++blockIndex;
+    }
+}
