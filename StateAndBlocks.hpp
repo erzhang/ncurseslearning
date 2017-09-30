@@ -61,7 +61,6 @@ class Z_Block : public Block {
 
 class StateTrack {
     public:
-        //StateTrack( std::unique_ptr<Block>& b);
         StateTrack();
         void removeRows(std::vector<int> rows);
         void removeRows(int row);
@@ -69,6 +68,7 @@ class StateTrack {
         void fillSpace();
         void updateRow(int newrow) { curRow = newrow;}
         void updateCol(int newcol) { curCol = newcol;}
+        void renewTetronimoBlock();
         int row() { return curRow; }
         int col() { return curCol; }
         std::vector<int> gameBoardState;

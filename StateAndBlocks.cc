@@ -17,7 +17,6 @@ Block* randomBlockPiece()
 {
     srand(time(NULL)); //set random seed
     int output = rand() % 7;
-    std::cout << output << std::endl;
     switch (output){
         case 0: return new I_Block(); 
         case 1: return new T_Block(); 
@@ -40,6 +39,10 @@ StateTrack::StateTrack()
 {
 }
 
+void StateTrack::renewTetronimoBlock()
+{
+    iblock.reset(randomBlockPiece());
+}
 
 I_Block::I_Block() : Block(4, std::vector<int>{0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0}) { }
 T_Block::T_Block() : Block(3, std::vector<int>{0,1,0,1,1,1,0,0,0})               { }
@@ -87,4 +90,5 @@ void StateTrack::fillSpace()
         }
         ++blockIndex;
     }
+    renewTetronimoBlock();
 }

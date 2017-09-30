@@ -9,7 +9,7 @@
 void erase(int y, int x, Screen &curscr, StateTrack &curstate)
 {
     erase();
-    curscr.draw_box();
+//    curscr.draw_box();
     curscr.draw_state(curstate);
 }
 
@@ -73,7 +73,6 @@ void game_loop(char main_char, int row, int col, int ch, Screen &curscr, StateTr
 {
     if(ch == 'q') return;
 
-    mvaddch(row, col, main_char);
     refresh();
 
     for(;;)
@@ -104,8 +103,8 @@ void game_loop(char main_char, int row, int col, int ch, Screen &curscr, StateTr
         } else if(ch == 'i') {
            state.updateRow(row); state.updateCol(col); 
            state.fillSpace();
-            erase(row, col,curscr, state);
-            refresh();
+           erase(row, col,curscr, state);
+           refresh();
         }
     }
 }
