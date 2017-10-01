@@ -106,8 +106,10 @@ void StateTrack::clearRows()
        int checkFull = accumulate(startrow, endrow, 0);
        if( accumulate(startrow, endrow, 0) >= FRAME_WIDTH)
        {
-           for( auto it = startrow; it != endrow; ++it)
-               *it = 0;
+           gameBoardState.erase(startrow, endrow);
+           gameBoardState.insert(gameBoardState.begin(),FRAME_WIDTH,0);
+           //for( auto it = startrow; it != endrow; ++it)
+           //    *it = 0;
        }
    }
    //TODO: add functionality for moving all pieces down when a row is cleared

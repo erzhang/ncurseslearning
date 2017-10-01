@@ -110,6 +110,7 @@ void game_loop(char main_char, int row, int col, int ch, Screen &curscr, StateTr
     if(ch == 'q') return;
     refresh();
 
+    keypad(stdscr, TRUE); //allows arrow keys
     nodelay(stdscr, TRUE);
     std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
     for(;;) {
@@ -132,34 +133,34 @@ void game_loop(char main_char, int row, int col, int ch, Screen &curscr, StateTr
             }
         else
         {
-            if (ch == 'h') {       //left
+            if (ch == 'h' || ch == KEY_LEFT) {       //left
                 col = updateCol(row, col,-1, state); state.updateRow(row); state.updateCol(col);
                 erase(row, col, curscr, state);
                 refresh();
-            } else if(ch == 'j') { //down
+            } else if(ch == 'j' || ch == KEY_DOWN) { //down
                 row = updateRow(row, col, 1, state); state.updateRow(row); state.updateCol(col);
                 erase(row, col, curscr, state);
                 refresh();
-            } else if(ch == 'k') { //up
-                row = updateRow(row, col, -1, state); state.updateRow(row); state.updateCol(col);
-                erase(row, col, curscr, state);
-                refresh();
-            } else if(ch == 'l') { //right
+            //} else if(ch == 'k') { //up
+            //    row = updateRow(row, col, -1, state); state.updateRow(row); state.updateCol(col);
+            //    erase(row, col, curscr, state);
+            //    refresh();
+            } else if(ch == 'l' || ch == KEY_RIGHT) { //right
                 col = updateCol(row, col,1, state); state.updateRow(row); state.updateCol(col);
                 erase(row, col, curscr, state);
                 refresh();
             } else if(ch == 'q') {
                 break;
-            } else if(ch == 'c') {
+            } else if(ch == 'c' || ch == KEY_UP) {
                 attemptRotate(row, col, state);
                 erase(row, col,curscr, state);
                 refresh();
-            } else if(ch == 'i') {
-               state.updateRow(row); state.updateCol(col); 
-               state.fillSpace();
-               erase(row, col,curscr, state);
-               refresh();
-            } else if(ch == 'G') {
+            //} else if(ch == 'i') {
+            //   state.updateRow(row); state.updateCol(col); 
+            //   state.fillSpace();
+            //   erase(row, col,curscr, state);
+            //   refresh();
+            } else if(ch == 'G' || ch == ' ') {
                dropBlock(state);
                erase(row, col,curscr, state);
                refresh();
