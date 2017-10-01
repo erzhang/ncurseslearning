@@ -21,50 +21,20 @@ class Block{
         std::vector<int> blocksFilled;
 };
 
-class O_Block : public Block {
-    public:
-        O_Block();
-        void rotate_cw() override {};
-};
-
-class I_Block : public Block {
-    public:
-        I_Block();
-        void rotate_cw() override;
-};
-
-class T_Block : public Block {
-    public:
-        T_Block();
-};
-
-class L_Block : public Block {
-    public:
-        L_Block();
-};
-
-class J_Block : public Block {
-    public:
-        J_Block();
-};
-
-class S_Block : public Block {
-    public:
-        S_Block();
-};
-
-class Z_Block : public Block {
-    public:
-        Z_Block();
-};
+class O_Block : public Block { public: O_Block(); void rotate_cw() override {}; }; 
+class I_Block : public Block { public: I_Block(); void rotate_cw() override;    }; 
+class T_Block : public Block { public: T_Block();                               }; 
+class L_Block : public Block { public: L_Block();                               }; 
+class J_Block : public Block { public: J_Block();                               }; 
+class S_Block : public Block { public: S_Block();                               }; 
+class Z_Block : public Block { public: Z_Block();                               };
 
 
 class StateTrack {
     public:
         StateTrack();
-        void removeRows(std::vector<int> rows);
-        void removeRows(int row);
-        void addScore(int numRows);
+        void clearRows();
+        void addScore() { ++score; };
         void fillSpace();
         void updateRow(int newrow) { curRow = newrow;}
         void updateCol(int newcol) { curCol = newcol;}

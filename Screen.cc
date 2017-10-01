@@ -8,17 +8,14 @@ void Screen::draw_state(StateTrack &st)
 {
     int oRow = st.row();
     int oCol = st.col();
-    int space_idx = 0;
 
+    int space_idx = 0;
     for(auto space : st.gameBoardState){
             std::vector<int> rc = vecToSquare(space_idx, FRAME_WIDTH);
-            if(space)
-            {
-            mvaddch(rc[0] + TOP_LEFT_CORNER_ROW, rc[1] + TOP_LEFT_CORNER_COL, 'o');
-            }
-            else
-            {
-            mvaddch(rc[0] + TOP_LEFT_CORNER_ROW, rc[1] + TOP_LEFT_CORNER_COL, '.');
+            if(space==1) {
+                mvaddch(rc[0] + TOP_LEFT_CORNER_ROW, rc[1] + TOP_LEFT_CORNER_COL, 'o');
+            } else {
+                mvaddch(rc[0] + TOP_LEFT_CORNER_ROW, rc[1] + TOP_LEFT_CORNER_COL, '.');
             }
             ++space_idx;
     }
@@ -31,9 +28,14 @@ void Screen::draw_state(StateTrack &st)
         }
         ++idx;
     }
+
+
+
 }
 
-Screen::Screen() {
+
+Screen::Screen() 
+{
     initscr();
 }
 
@@ -51,6 +53,7 @@ void Screen::draw_box()
     for(int col = TOP_LEFT_CORNER_COL-1; col < TOP_LEFT_CORNER_COL+FRAME_WIDTH+1; ++col) {
         mvaddch(TOP_LEFT_CORNER_ROW+FRAME_HEIGHT,col , '-'); 
     }
+
 }
 
 void Screen::add(){

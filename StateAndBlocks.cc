@@ -1,3 +1,4 @@
+#include <numeric>
 #include <iostream>
 #include "StateAndBlocks.hpp"
 
@@ -86,9 +87,28 @@ void StateTrack::fillSpace()
             std::vector<int> rc = vecToSquare(blockIndex, iblock->blockWidth);
             int gameBoardRow = rc[0] + row() - TOP_LEFT_CORNER_ROW; 
             int gameBoardCol = rc[1] + col() - TOP_LEFT_CORNER_COL;
-            ++gameBoardState[squareToVec(gameBoardRow, gameBoardCol, FRAME_WIDTH)];
+            gameBoardState[squareToVec(gameBoardRow, gameBoardCol, FRAME_WIDTH)]=1;
         }
         ++blockIndex;
     }
+    clearRows();
     renewTetronimoBlock();
+    updateRow(TOP_LEFT_CORNER_ROW);
+    updateCol(TOP_LEFT_CORNER_COL + FRAME_WIDTH/2);
+}
+
+void StateTrack::clearRows()
+{
+   //Scan through each row and check if row is filled
+   for(int r = 0; r < FRAME_HEIGHT; ++r){
+       std::vector<int>::iterator startrow = gameBoardState.begin() + r*FRAME_WIDTH;
+       std::vector<int>::iterator endrow = gameBoardState.begin() + (r+1)*FRAME_WIDTH;
+       int checkFull = accumulate(startrow, endrow, 0);
+       if( accumulate(startrow, endrow, 0) >= FRAME_WIDTH)
+       {
+           for( auto it = startrow; it != endrow; ++it)
+               *it = 0;
+       }
+   }
+   //TODO: add functionality for moving all pieces down when a row is cleared
 }
