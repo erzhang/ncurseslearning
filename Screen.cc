@@ -29,7 +29,8 @@ void Screen::draw_state(StateTrack &st)
         ++idx;
     }
 
-
+    int score = st.curScore();
+   mvprintw(2,20,"MICHELLE IS DA BEST: %d", score);
 
 }
 

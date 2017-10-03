@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-constexpr int FRAME_HEIGHT        = 40;
+constexpr int FRAME_HEIGHT        = 20;
 constexpr int FRAME_WIDTH         = 20;
 constexpr int TOP_LEFT_CORNER_ROW = 05; 
 constexpr int TOP_LEFT_CORNER_COL = 30;
@@ -39,6 +39,7 @@ class StateTrack {
         void updateRow(int newrow) { curRow = newrow;}
         void updateCol(int newcol) { curCol = newcol;}
         void renewTetronimoBlock();
+        int curScore(){ return score;}
         int row() { return curRow; }
         int col() { return curCol; }
         std::vector<int> gameBoardState;

@@ -1,5 +1,6 @@
 #include <numeric>
 #include <iostream>
+#include <ncurses.h>
 #include "StateAndBlocks.hpp"
 
 // matrix to linear idx transformations
@@ -108,9 +109,7 @@ void StateTrack::clearRows()
        {
            gameBoardState.erase(startrow, endrow);
            gameBoardState.insert(gameBoardState.begin(),FRAME_WIDTH,0);
-           //for( auto it = startrow; it != endrow; ++it)
-           //    *it = 0;
+           addScore();
        }
    }
-   //TODO: add functionality for moving all pieces down when a row is cleared
 }
